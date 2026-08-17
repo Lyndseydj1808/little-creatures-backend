@@ -9,14 +9,14 @@ import java.util.List;
 public class Parent {
     @Id
     @GeneratedValue
-    private int ParentId;
+    private int parentId;
 
     private String email;
     private String password;
     private String firstName;
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private List<Child> children = new ArrayList<>();
 
     public Parent() {
@@ -29,8 +29,8 @@ public class Parent {
         this.lastName = lastName;
     }
 
-    public int getParentId() {
-        return ParentId;
+    public int getparentId() {
+        return parentId;
     }
 
     public String getEmail() {
@@ -63,5 +63,14 @@ public class Parent {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Child> getChildren() {
+        return children;
+    }
+
+    public void addChild(Child child) {
+        this.children.add(child);
+        child.setParent(this);
     }
 }
