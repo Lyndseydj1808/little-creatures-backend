@@ -29,7 +29,7 @@ public class Parent {
         this.lastName = lastName;
     }
 
-    public int getparentId() {
+    public int getParentId() {
         return parentId;
     }
 
