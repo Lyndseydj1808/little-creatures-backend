@@ -1,13 +1,14 @@
 package com.lyndsey.littlecreatures.little_creatures_backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Child {
     @Id
     @GeneratedValue
     private int childId;
-
+    @NotBlank
     private String name;
     private int age;
     private int starCount;
