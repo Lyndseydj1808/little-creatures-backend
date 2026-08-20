@@ -1,7 +1,10 @@
 package com.lyndsey.littlecreatures.little_creatures_backend.controller;
 
+import com.lyndsey.littlecreatures.little_creatures_backend.DTO.ChildRequestDTO;
+import com.lyndsey.littlecreatures.little_creatures_backend.DTO.ChildResponseDTO;
 import com.lyndsey.littlecreatures.little_creatures_backend.DTO.ParentRequestDTO;
 import com.lyndsey.littlecreatures.little_creatures_backend.DTO.ParentResponseDTO;
+import com.lyndsey.littlecreatures.little_creatures_backend.model.Child;
 import com.lyndsey.littlecreatures.little_creatures_backend.model.Parent;
 import com.lyndsey.littlecreatures.little_creatures_backend.repository.ChildRepository;
 import com.lyndsey.littlecreatures.little_creatures_backend.repository.ParentRepository;
@@ -9,7 +12,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("parent")
@@ -73,6 +79,45 @@ public class ParentController {
     public void deleteParent(@PathVariable int parentId) {
         parentRepository.deleteById(parentId);
     }
-}
+
+    @PostMapping("{parentId}/child")
+    public ChildResponseDTO createChild(@PathVariable int parentId, @Valid @RequestBody ChildRequestDTO dto) {
+        Parent parent = parentRepository.findById(parentId).orElseThrow();
+        Child child = new Child(dto.getName(), dto.getAge(), dto.getStarCount(), dto.getCreatureChoice());
+        parent.addChild(child);
+        child = childRepository.save(child);
+
+
+        ChildResponseDTO response = new ChildResponseDTO();
+        response.setChildId(child.getChildId());
+        response.setName(child.getName());
+        response.setAge(child.getAge());
+        response.setStarCount(child.getStarCount());
+        response.setCreatureChoice(child.getCreatureChoice());
+        response.setParentId(child.getParent().getParentId());
+
+        return response;
+    }
+
+    @GetMapping("{parentId}/childList")
+    public List<ChildResponseDTO> getChildList(@PathVariable int parentId) {
+        Parent parent = parentRepository.findById(parentId).orElseThrow();
+        List<Child> childList = parent.getChildList();
+        List<ChildResponseDTO> responseList = new ArrayList<>();
+
+        for (Child child : childList) {
+            ChildResponseDTO response = new ChildResponseDTO();
+            response.setChildId(child.getChildId());
+            response.setName(child.getName());
+            response.setAge(child.getAge());
+            response.setStarCount(child.getStarCount());
+            response.setCreatureChoice(child.getCreatureChoice());
+            response.setParentId(child.getParent().getParentId());
+            responseList.add(response);
+        }
+
+        return responseList;
+        }
+    }
 
 

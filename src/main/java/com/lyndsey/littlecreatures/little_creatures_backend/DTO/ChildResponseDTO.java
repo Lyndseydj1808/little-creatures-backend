@@ -1,34 +1,19 @@
-package com.lyndsey.littlecreatures.little_creatures_backend.model;
+package com.lyndsey.littlecreatures.little_creatures_backend.DTO;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
-@Entity
-public class Child {
-    @Id
-    @GeneratedValue
+public class ChildResponseDTO {
     private int childId;
     private String name;
     private int age;
     private int starCount;
     private String creatureChoice;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Parent parent;
-
-    public Child() {
-    }
-
-    public Child(String name, int age, int starCount, String creatureChoice) {
-        this.name = name;
-        this.age = age;
-        this.starCount = starCount;
-        this.creatureChoice = creatureChoice;
-    }
+    private int parentId;
 
     public int getChildId() {
         return childId;
+    }
+
+    public void setChildId(int childId) {
+        this.childId = childId;
     }
 
     public String getName() {
@@ -63,11 +48,11 @@ public class Child {
         this.creatureChoice = creatureChoice;
     }
 
-    public Parent getParent() {
-        return parent;
+    public int getParentId() {
+        return parentId;
     }
 
-    public void setParent(Parent parent) {
-        this.parent = parent;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 }
