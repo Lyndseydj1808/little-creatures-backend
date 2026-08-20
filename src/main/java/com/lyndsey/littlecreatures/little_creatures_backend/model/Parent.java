@@ -19,7 +19,7 @@ public class Parent {
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
-    private List<Child> children = new ArrayList<>();
+    private List<Child> childList = new ArrayList<>();
 
     public Parent() {
     }
@@ -69,12 +69,12 @@ public class Parent {
         this.lastName = lastName;
     }
 
-    public List<Child> getChildren() {
-        return children;
+    public List<Child> getChildList() {
+        return childList;
     }
 
     public void addChild(Child child) {
-        this.children.add(child);
+        this.childList.add(child);
         child.setParent(this);
     }
 }
