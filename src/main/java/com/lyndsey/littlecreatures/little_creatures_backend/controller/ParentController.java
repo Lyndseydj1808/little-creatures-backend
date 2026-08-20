@@ -5,6 +5,7 @@ import com.lyndsey.littlecreatures.little_creatures_backend.DTO.ParentResponseDT
 import com.lyndsey.littlecreatures.little_creatures_backend.model.Parent;
 import com.lyndsey.littlecreatures.little_creatures_backend.repository.ChildRepository;
 import com.lyndsey.littlecreatures.little_creatures_backend.repository.ParentRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ParentController {
     private ChildRepository childRepository;
 
     @PostMapping
-    public ParentResponseDTO createParent(@RequestBody ParentRequestDTO dto) {
+    public ParentResponseDTO createParent(@Valid @RequestBody ParentRequestDTO dto) {
         Parent parent = new Parent(dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName());
         parent = parentRepository.save(parent);
 
@@ -48,11 +49,11 @@ public class ParentController {
     }
 
     @PutMapping("{parentId}")
-    public ParentResponseDTO updateParent(@PathVariable int parentId, @RequestBody ParentRequestDTO dto) {
+    public ParentResponseDTO updateParent(@PathVariable int parentId, @Valid @RequestBody ParentRequestDTO dto) {
         Parent existingParent = parentRepository.findById(parentId).orElseThrow();
 
         existingParent.setEmail(dto.getEmail());
-        existingParent.setPassword(dto.getPassword());
+        existingParent.setPwHash(dto.getPassword());
         existingParent.setFirstName(dto.getFirstName());
         existingParent.setLastName(dto.getLastName());
 

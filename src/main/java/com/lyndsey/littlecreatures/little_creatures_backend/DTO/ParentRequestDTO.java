@@ -1,9 +1,17 @@
 package com.lyndsey.littlecreatures.little_creatures_backend.DTO;
 
+import jakarta.validation.constraints.*;
+
 public class ParentRequestDTO {
+    @Email
+    @NotBlank
     private String email;
+    @NotBlank
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
 
     public String getEmail() {
